@@ -1,0 +1,43 @@
+
+<script>
+  // Membuat animasi hati yang melayang
+  function createHeart() {
+    const heart = document.createElement('div');
+
+    heart.className = 'heart';
+    heart.innerHTML = '❤️';
+
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (15 + Math.random() * 25) + 'px';
+    heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 10000);
+  }
+
+  // Membuat hati setiap 700 milidetik
+  setInterval(createHeart, 700);
+
+  // Menampilkan pesan kejutan
+  function showSurprise() {
+    google.script.run
+      .withSuccessHandler(function(data) {
+        const surprise = document.getElementById('surprise');
+
+        surprise.innerHTML = `
+          <p>${data.message}</p>
+          <p>Dengan cinta, ${data.sender} ❤️</p>
+        `;
+
+        surprise.style.display = 'block';
+      })
+      .withFailureHandler(function(error) {
+        alert('Maaf, kejutan belum bisa ditampilkan.');
+        console.error(error);
+      })
+      .getSurpriseMessage();
+  }
+</script>
